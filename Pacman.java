@@ -6,7 +6,7 @@ import model.Labyrinthe;
 public class Pacman extends Entity{
 	private int points;
 	public Pacman(int posx, int posy){
-		super(posx,posy,'o',"Pacman");
+		super(posx,posy,'n',"Pacman");
 		this.points=0;
 	}
 	//action consiste en deux points:verifier si le pacman meurt a cause d'un fantome
@@ -62,25 +62,25 @@ public class Pacman extends Entity{
         if(dispo(lab,'n'))
             tenter(lab,'n');
         else
-            tenter(lab,this.etat);
+            tenter(lab,this.dir);
 	}
 	public void go_left(Labyrinthe lab){
         if(dispo(lab,'o'))
             tenter(lab,'o');
         else
-            tenter(lab,this.etat);
+            tenter(lab,this.dir);
 	}
 	public void go_right(Labyrinthe lab){
         if(dispo(lab,'e'))
             tenter(lab,'e');
         else
-            tenter(lab,this.etat);
+            tenter(lab,this.dir);
 	}
 	public void go_down(Labyrinthe lab){
         if(dispo(lab,'s'))
             tenter(lab,'s');
         else
-            tenter(lab,this.etat);
+            tenter(lab,this.dir);
 	}
 	public void tenter(Labyrinthe lab,char target){
 		if(dispo(lab,target)){

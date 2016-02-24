@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import model.Labyrinthe;
@@ -70,13 +71,20 @@ public class View extends Parent{
         for (int i = 0;i<28;i++){
             for (int j = 0;j<31;j++){
                 if (!labyrinthe.get_lab()[i][j].get_type())
-                    gridPane.add(new Rectangle(22,22),i,j);;
+                    gridPane.add(new Rectangle(22,22),i,j);
+                /*else
+                    if (labyrinthe.get_lab()[i][j].get_item().get_nom().equals("gomme")) {
+                        gridPane.add(new Circle(i,j, 2, Color.BLACK),i,j);
+                    }*/
             }
         }
         root.getChildren().add(gridPane);
         Pacman paicman = this.model.getPaicman();
         root.getChildren().add(labyrinthe);
         root.getChildren().add(paicman);
+        this.model.paicman.set_pos(14*22, 23*22);
+        this.model.paicman.setTranslateX(14*22);
+        this.model.paicman.setTranslateY(23*22);
         return scene;
     }
 

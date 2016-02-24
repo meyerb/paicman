@@ -7,7 +7,7 @@ import model.Labyrinthe;
 
 
 public class Entity extends Parent{
-    public Circle shape= new Circle((int)((600/28)*14.5), (int)((700/31)*23.5), 10, Color.GOLD);
+    protected Circle shape;
 	protected Position pos;
 	//landmark correspondant � une coordonn�e fix� qui peut �tre utilis�
 	protected Position landmark;
@@ -46,7 +46,8 @@ public class Entity extends Parent{
         this.getChildren().add(shape);
 	}
 	Entity(int posx,int posy, char _dir,String _nom){
-		this.pos=new Position(posx*600/28,posy*700/31);
+		this.pos=new Position(posx*22,posy*22);
+		this.shape= new Circle((posx+11), (posy+11), 10, Color.GOLD);
 		this.landmark=new Position();
 		this.dir=_dir;
 		this.nom=_nom;
@@ -124,25 +125,13 @@ public class Entity extends Parent{
 	public boolean is_Left(Position p){
 		switch(this.dir){
 			case 'n':
-				if(this.pos.diffx(p)>=0)
-					return true;
-				else
-					return false;
+				return this.pos.diffx(p) >= 0;
 			case 's':
-				if(this.pos.diffx(p)<=0)
-					return true;
-				else
-					return false;
+				return this.pos.diffx(p) <= 0;
 			case 'o':
-				if(this.pos.diffy(p)<=0)
-					return true;
-				else
-					return false;
+				return this.pos.diffy(p) <= 0;
 			case 'e':
-				if(this.pos.diffy(p)>=0)
-					return true;
-				else
-					return false;
+				return this.pos.diffy(p) >= 0;
 			default:
 				return false;
 		}
@@ -151,25 +140,13 @@ public class Entity extends Parent{
 	public boolean is_Right(Position p){
 		switch(this.dir){
 		case 'n':
-			if(this.pos.diffx(p)<=0)
-				return true;
-			else
-				return false;
+			return this.pos.diffx(p) <= 0;
 		case 's':
-			if(this.pos.diffx(p)>=0)
-				return true;
-			else
-				return false;
+			return this.pos.diffx(p) >= 0;
 		case 'o':
-			if(this.pos.diffy(p)>=0)
-				return true;
-			else
-				return false;
+			return this.pos.diffy(p) >= 0;
 		case 'e':
-			if(this.pos.diffy(p)<=0)
-				return true;
-			else
-				return false;
+			return this.pos.diffy(p) <= 0;
 		default:
 			return false;
 		}
@@ -178,25 +155,13 @@ public class Entity extends Parent{
 	public boolean is_Behind(Position p){
 		switch(this.dir){
 		case 'n':
-			if(this.pos.diffy(p)<=0)
-				return true;
-			else
-				return false;
+			return this.pos.diffy(p) <= 0;
 		case 's':
-			if(this.pos.diffy(p)>=0)
-				return true;
-			else
-				return false;
+			return this.pos.diffy(p) >= 0;
 		case 'o':
-			if(this.pos.diffx(p)<=0)
-				return true;
-			else
-				return false;
+			return this.pos.diffx(p) <= 0;
 		case 'e':
-			if(this.pos.diffx(p)>=0)
-				return true;
-			else
-				return false;
+			return this.pos.diffx(p) >= 0;
 		default:
 			return false;
 		}
@@ -205,25 +170,13 @@ public class Entity extends Parent{
 	public boolean is_Forward(Position p){
 		switch(this.dir){
 		case 'n':
-			if(this.pos.diffy(p)>=0)
-				return true;
-			else
-				return false;
+			return this.pos.diffy(p) >= 0;
 		case 's':
-			if(this.pos.diffy(p)<=0)
-				return true;
-			else
-				return false;
+			return this.pos.diffy(p) <= 0;
 		case 'o':
-			if(this.pos.diffx(p)>=0)
-				return true;
-			else
-				return false;
+			return this.pos.diffx(p) >= 0;
 		case 'e':
-			if(this.pos.diffx(p)<=0)
-				return true;
-			else
-				return false;
+			return this.pos.diffx(p) <= 0;
 		default:
 			return false;
 	}
@@ -270,7 +223,7 @@ public class Entity extends Parent{
 	}
 	//tente d'aller sur le rep�re
 	public void go_landmark(Labyrinthe lab){
-		tenter(lab,this.landmark,this.get_dir_comparer(this.landmark));
+		//tenter(lab,this.landmark,this.get_dir_comparer(this.landmark));
 	}
 	//tente un deplacement vers la direction en parametre
 	public void deplacement(Labyrinthe lab,char _dir){
@@ -306,7 +259,6 @@ public class Entity extends Parent{
 				this.pos.set_posx(0);
 		}
 		else if(_posy<0){
-            System.out.println("Is ok");
 			if(lab.get_type(this.pos.get_posx(),lab.get_hauteur()-1))
 				this.pos.set_posy(lab.get_hauteur()-1);
 		}
@@ -316,22 +268,10 @@ public class Entity extends Parent{
 		}
 		else{
 			this.pos.set_pos(_posx,_posy);
-            System.out.println(this.etat);
-            switch(this.etat){
-                case 'U':
-                    this.setTranslateY(this.getTranslateY()-1);
-                    break;
-                case 'D':
-                    this.setTranslateY(this.getTranslateY()+1);
-                    break;
-                case 'L':
-                    this.setTranslateX(this.getTranslateX()-1);
-                    break;
-                case 'R':
-                    this.setTranslateX(this.getTranslateX()+1);
-                    break;
-            }
+            //System.out.println(this.etat);
         }
+		this.setTranslateX(_posx);
+        this.setTranslateY(_posy);
 	}
 	//regarde si la case vers la direction en parametre est libre
 	//on consid�rera une sortie du labyrinthe comme �tant possible
@@ -339,107 +279,34 @@ public class Entity extends Parent{
 		switch(_dir){
 			case 'n':
 				if(this.pos.get_posy()-1>=0){
-					return lab.get_type(this.pos.get_posx(),this.pos.get_posy()-1);
+					return (lab.get_type(this.pos.get_posx(),this.pos.get_posy()-1)&&
+							lab.get_type(this.pos.get_posx()+21,this.pos.get_posy()-1));
 				}
 				else{
 					return true;}
 			case 'e':
-				if(this.pos.get_posx()+1<lab.get_largeur()){
-					return lab.get_type(this.pos.get_posx()+1,this.pos.get_posy());
+				if(this.pos.get_posx()+23<lab.get_largeur()){
+					return (lab.get_type(this.pos.get_posx()+22,this.pos.get_posy())&&
+							lab.get_type(this.pos.get_posx()+22,this.pos.get_posy()+21));
 				}
 				else{
 					return true;}
 			case 'o':
 				if(this.pos.get_posx()-1>=0){
-					return lab.get_type(this.pos.get_posx()-1,this.pos.get_posy());
+					return (lab.get_type(this.pos.get_posx()-1,this.pos.get_posy())&&
+							lab.get_type(this.pos.get_posx()-1,this.pos.get_posy()+21));
 				}
 				else{
 					return true;}
 			case 's':
-				if(this.pos.get_posy()+1<lab.get_hauteur()){
-					return lab.get_type(this.pos.get_posx(),this.pos.get_posy()+1);
+				if(this.pos.get_posy()+23<lab.get_hauteur()){
+					return (lab.get_type(this.pos.get_posx(),this.pos.get_posy()+22)&&
+							lab.get_type(this.pos.get_posx()+21,this.pos.get_posy()+22));
 				}
 				else{
 					return true;}
 			default:
 				return false;
-		}
-	}
-	//tentative de deplacement en g�n�ral du fantome (a deplacer vers fantome et remplacer par
-	//un mouvement basique vers l'avant)
-	//si direction initiale bloquer, regarde les autres directions possible en fonction de
-	//l'emplacement du pacman
-	//CAS GENERAL: aucun fantome ne peux faire demi-tour sauf si obliger
-	public void tenter(Labyrinthe lab,Position target,char tenter_dir){
-		if(!dispo(lab,tenter_dir)){
-			if(tenter_dir==this.dir||tenter_dir==this.dir_behind(dir)){
-				if(is_Left(target)&&dispo(lab,dir_left(this.dir))){
-					this.dir=dir_left(this.dir);
-					deplacement(lab,this.dir);
-				}
-				else if(is_Right(target)&&dispo(lab,dir_right(this.dir))){
-					this.dir=dir_right(this.dir);
-					deplacement(lab,this.dir);
-				}
-				else if(dispo(lab,dir_left(this.dir))){
-					this.dir=dir_left(this.dir);
-					deplacement(lab,this.dir);
-				}
-				else if(dispo(lab,dir_right(this.dir))){
-					this.dir=dir_right(this.dir);
-					deplacement(lab,this.dir);
-				}
-				else if(tenter_dir==this.dir&&dispo(lab,dir_behind(this.dir))){
-					this.dir=dir_behind(this.dir);
-					deplacement(lab,this.dir);
-				}
-				else if(tenter_dir==this.dir_behind(this.dir)&&dispo(lab,this.dir)){
-					deplacement(lab,this.dir);
-				}
-			}
-			else{
-				if(dispo(lab,this.dir))
-					deplacement(lab,this.dir);
-				else if(dispo(lab,this.dir_behind(tenter_dir))){
-					this.dir=this.dir_behind(tenter_dir);
-					deplacement(lab,this.dir);
-				}
-				else if(dispo(lab,this.dir_behind(this.dir))){
-					this.dir=this.dir_behind(this.dir);
-					deplacement(lab,this.dir);
-				}
-			}
-		}
-		else{
-			if(tenter_dir!=this.dir_behind(dir)){
-				this.dir=tenter_dir;
-				deplacement(lab,this.dir);
-			}
-			else{
-				if(is_Left(target)&&dispo(lab,dir_left(this.dir))){
-					this.dir=dir_left(this.dir);
-					deplacement(lab,this.dir);
-				}
-				else if(is_Right(target)&&dispo(lab,dir_right(this.dir))){
-					this.dir=dir_right(this.dir);
-					deplacement(lab,this.dir);
-				}
-				else if(dispo(lab,dir_left(this.dir))){
-					this.dir=dir_left(this.dir);
-					deplacement(lab,this.dir);
-				}
-				else if(dispo(lab,dir_right(this.dir))){
-					this.dir=dir_right(this.dir);
-					deplacement(lab,this.dir);
-				}
-				else if(dispo(lab,this.dir)){
-					deplacement(lab,this.dir);
-				}
-				else{
-					this.dir=dir_behind(this.dir);
-					deplacement(lab,this.dir);
-				}
-			}
 		}
 	}
 }
