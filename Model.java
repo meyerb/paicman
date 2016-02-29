@@ -1,7 +1,6 @@
 package model;
 
-import code_benjamin.Pacman;
-import javafx.scene.paint.Color;
+import code_benjamin.*;
 
 import java.io.File;
 
@@ -9,11 +8,13 @@ public class Model {
 
     public Labyrinthe labyrinthe;
     public Pacman paicman;
+    public Fantome fantome;
     public String direction;
 
     public Model(String file){
         this.labyrinthe = new Labyrinthe(file);
-        this.paicman = new Pacman(14,23);
+        this.paicman = new Pacman(0,0);
+        this.fantome = new Fantome(0,0,2);
     }
 
     public void haut(){
@@ -40,7 +41,9 @@ public class Model {
     public Pacman getPaicman() {
         return this.paicman;
     }
-
+    public Fantome getFantome(){
+    	return this.fantome;
+    }
     public String getDirection() {
         return direction;
     }

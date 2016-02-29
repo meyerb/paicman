@@ -25,7 +25,6 @@ public class Entity extends Parent{
 		this.nom="inconnu";
 		this.etat='I';
 		this.timer=0;
-        this.getChildren().add(shape);
 	}
 	Entity(int posx,int posy){
 		this.pos=new Position(posx,posy);
@@ -34,7 +33,6 @@ public class Entity extends Parent{
 		this.nom="inconnu";
 		this.etat='I';
 		this.timer=0;
-        this.getChildren().add(shape);
 	}
 	Entity(int posx,int posy, char _dir){
 		this.pos=new Position(posx,posy);
@@ -43,17 +41,14 @@ public class Entity extends Parent{
 		this.nom="inconnu";
 		this.etat='I';
 		this.timer=0;
-        this.getChildren().add(shape);
 	}
 	Entity(int posx,int posy, char _dir,String _nom){
 		this.pos=new Position(posx*22,posy*22);
-		this.shape= new Circle((posx+11), (posy+11), 10, Color.GOLD);
 		this.landmark=new Position();
 		this.dir=_dir;
 		this.nom=_nom;
 		this.etat='I';
 		this.timer=0;
-        this.getChildren().add(shape);
 	}
 	public String toString(){
 		return "["+this.nom+"|"+this.dir+"|"+this.pos.toString()+"|etat:"+this.etat+"]";
@@ -268,10 +263,14 @@ public class Entity extends Parent{
 		}
 		else{
 			this.pos.set_pos(_posx,_posy);
-            //System.out.println(this.etat);
         }
 		this.setTranslateX(_posx);
         this.setTranslateY(_posy);
+	}
+	//retourne true si la position est à moins de 5 pixels de différences,false sinon
+	public boolean collision(Entity e){
+		return (this.pos.diffx(e.get_pos())>-5&&this.pos.diffx(e.get_pos())<5&&
+				this.pos.diffy(e.get_pos())>-5&&this.pos.diffy(e.get_pos())<5);
 	}
 	//regarde si la case vers la direction en parametre est libre
 	//on considï¿½rera une sortie du labyrinthe comme ï¿½tant possible

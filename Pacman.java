@@ -1,5 +1,7 @@
 package code_benjamin;
 
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import model.Labyrinthe;
 
 
@@ -7,6 +9,8 @@ public class Pacman extends Entity{
 	private int points;
 	public Pacman(int posx, int posy){
 		super(posx,posy,'n',"Pacman");
+		this.shape= new Circle((posx+11), (posy+11), 10, Color.GOLD);
+        this.getChildren().add(shape);
 		this.points=0;
 	}
 	//action consiste en deux points:verifier si le pacman meurt a cause d'un fantome

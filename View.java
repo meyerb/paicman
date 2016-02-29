@@ -1,6 +1,6 @@
 package view;
 
-import code_benjamin.Pacman;
+import code_benjamin.*;
 import controller.Controller;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -80,11 +80,16 @@ public class View extends Parent{
         }
         root.getChildren().add(gridPane);
         Pacman paicman = this.model.getPaicman();
+        Fantome fantome=this.model.getFantome();
         root.getChildren().add(labyrinthe);
         root.getChildren().add(paicman);
+        root.getChildren().add(fantome);
         this.model.paicman.set_pos(14*22, 23*22);
         this.model.paicman.setTranslateX(14*22);
         this.model.paicman.setTranslateY(23*22);
+        this.model.fantome.set_pos(16*22, 23*22);
+        this.model.fantome.setTranslateX(16*22);
+        this.model.fantome.setTranslateY(23*22);
         return scene;
     }
 

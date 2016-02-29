@@ -66,8 +66,8 @@ public class Position {
 		return get_dir(p.get_posx(),p.get_posy());
 	}
 	public char get_dir(int _posx,int _posy){
-		int diffx=this.posx-_posx;
-		int diffy=this.posy-_posy;
+		int diffx=_posx-this.posx;
+		int diffy=_posy-this.posy;
 		
 		if(diffx==0&&diffy==0)
 			return 'n';
